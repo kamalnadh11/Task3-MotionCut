@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import React, { useState } from 'react';
+import ProductPage from './ProductPage';
+import ViewCartPage from './ViewCartPage';
+import './App.css'; 
+
+const App = () => {
+  const [currentPage, setCurrentPage] = useState('product');
+  const [cart, setCart] = useState([]);
+
+  const switchPage = (page) => {
+    setCurrentPage(page);
+  };
+
+  const addToCart = (product) => {
+    const updatedCart = [...cart, product];
+    setCart(updatedCart);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="app-container">
+      <header>
+        <h1>Gadgets Store</h1>
       </header>
+
+      <div className="button-container">
+        <button onClick={() => switchPage('product')}>Product Page</button>
+        <button onClick={() => switchPage('cart')}>View Cart</button>
+      </div>
+
+      {currentPage === 'product' ? (
+        <ProductPage addToCart={addToCart} />
+      ) : (
+        <ViewCartPage cart={cart} setCart={setCart} />
+      )}
     </div>
   );
-}
+};
 
 export default App;
